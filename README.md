@@ -14,7 +14,7 @@ You'll learn:
           •	Glide (for image processing)
           •	ViewBinding
           •	DataBinding
-          •	Unit Testing (using Junit, Mockito, Hamcrest, AndroidXCore)
+          •	Unit Testing (using Junit, Mockito, Hamcrest, Android Arch Comp Testing)
           •	Kotlin
   
 </p>
