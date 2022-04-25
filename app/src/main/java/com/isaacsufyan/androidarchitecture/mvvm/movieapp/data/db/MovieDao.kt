@@ -7,19 +7,19 @@ import com.isaacsufyan.androidarchitecture.mvvm.movieapp.data.model.Movie
 @Dao
 interface MovieDao {
 
-  @Insert(onConflict = OnConflictStrategy.REPLACE)
-  fun insert(movie: Movie)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insert(movie: Movie)
 
-  @Query("select * from movie")
-  fun getAll(): LiveData<List<Movie>>
+    @Query("select * from movie")
+    fun getAll(): LiveData<List<Movie>>
 
-  @Query("delete from movie where watched = :watched")
-  fun deleteMovies(watched: Boolean)
+    @Query("delete from movie where watched = :watched")
+    fun deleteMovies(watched: Boolean)
 
-  @Update
-  fun updateMovie(movie: Movie)
+    @Update
+    fun updateMovie(movie: Movie)
 
-  @Query("DELETE FROM movie WHERE id = :id")
-  fun delete(id: Int?)
+    @Query("DELETE FROM movie WHERE id = :id")
+    fun delete(id: Int?)
 
 }

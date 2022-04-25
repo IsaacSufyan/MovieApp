@@ -9,6 +9,6 @@
     <string name="network_error">Network Error. Try Again?</string>
     <string name="ok">OK</string>
     <string name="error">Error</string>
-    <string name="title_message">You must enter a title</string>
-    <string name="enter_title">You must enter a title</string>
+    <string name="message_validate_can_movie_saved">You must enter a title and year</string>
+    <string name="message_validate_can_movie_search">You must enter a Year</string>
 </resources>
