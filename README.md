@@ -8,14 +8,14 @@ You'll learn:
 
 <p>
   
-          •	MVVM </br>
-          •	Room (for storing data in database) </br>
-          •	Retrofit (for network calling) </br>
-          •	Glide (for image processing) </br>
-          •	ViewBinding </br>
-          •	DataBinding </br>
+          •	MVVM
+          •	Room (for storing data in database)
+          •	Retrofit (for network calling)
+          •	Glide (for image processing)
+          •	ViewBinding
+          •	DataBinding
           •	Unit Testing (using Junit, Mockito, Hamcrest, AndroidXCore)
-          •	Kotlin </br>
+          •	Kotlin
   
 </p>
 
