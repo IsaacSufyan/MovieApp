@@ -3,6 +3,8 @@ package com.isaacsufyan.androidarchitecture.mvvm.movieapp.view.activities
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.widget.Toolbar
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
 import com.isaacsufyan.androidarchitecture.mvvm.movieapp.R
@@ -26,35 +28,9 @@ class AddMovieActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityAddBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        binding.imageButton.setOnClickListener {
-            searchMovieClicked()
-        }
-
-        binding.addMovieButton.setOnClickListener {
-            addMovieClicked()
-        }
-    }
-
-    private fun addMovieClicked() {
-        if (binding.titleEditText.text.toString().isNotBlank()) {
-            viewModel.saveMovie(Movie(title = binding.titleEditText.text.toString(), releaseDate = binding.yearEditText.text.toString()))
-            finish()
-        } else {
-            showMessage(getString(R.string.enter_title))
-        }
-    }
-
-    private fun searchMovieClicked() {
-        if (binding.titleEditText.text.toString().isNotBlank()) {
-            val intent = Intent(this, SearchMovieActivity::class.java)
-            intent.putExtra("title", binding.titleEditText.text.toString())
-            startActivity(intent)
-        } else {
-            showMessage(getString(R.string.enter_title))
-        }
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_add)
+        binding.viewModel = viewModel
+        subscribeObservers()
     }
 
     private fun showMessage(msg: String) {
@@ -63,4 +39,27 @@ class AddMovieActivity : BaseActivity() {
             }
         }
     }
+
+    private fun subscribeObservers() {
+        viewModel.saveMovie.observe(this) { saved ->
+            saved?.let {
+                if (saved) {
+                    finish()
+                } else {
+                    showMessage(getString(R.string.message_validate_can_movie_saved))
+                }
+            }
+        }
+
+        viewModel.searchMovie.observe(this) {
+            it?.let {
+                val intent = Intent(this, SearchMovieActivity::class.java)
+                intent.putExtra("title", it)
+                startActivity(intent)
+            } ?: run {
+                showMessage(getString(R.string.message_validate_can_movie_search))
+            }
+        }
+    }
+
 }

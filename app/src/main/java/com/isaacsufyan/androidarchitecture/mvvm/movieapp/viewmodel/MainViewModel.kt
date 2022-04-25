@@ -8,21 +8,21 @@ import com.isaacsufyan.androidarchitecture.mvvm.movieapp.data.model.Movie
 
 class MainViewModel(private val repository: MovieRepository = MovieRepositoryImpl()) : ViewModel() {
 
-  private val allMovies = MediatorLiveData<List<Movie>>()
+    private val allMovies = MediatorLiveData<List<Movie>>()
 
-  init {
-    getAllMovies()
-  }
-
-  fun getSavedMovies() = allMovies
-
-  private fun getAllMovies() {
-    allMovies.addSource(repository.getSavedMovies()) { movies ->
-      allMovies.postValue(movies)
+    init {
+        getAllMovies()
     }
-  }
 
-  fun deleteSavedMovies(movie: Movie) {
-    repository.deleteMovie(movie)
-  }
+    fun getSavedMovies() = allMovies
+
+    private fun getAllMovies() {
+        allMovies.addSource(repository.getSavedMovies()) { movies ->
+            allMovies.postValue(movies)
+        }
+    }
+
+    fun deleteSavedMovies(movie: Movie) {
+        repository.deleteMovie(movie)
+    }
 }

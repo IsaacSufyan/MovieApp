@@ -15,39 +15,42 @@ import kotlin.concurrent.thread
 
 class MovieRepositoryImpl : MovieRepository {
 
-  private val movieDao: MovieDao = db.movieDao()
-  private val retrofitClient = RetrofitClient()
-  private val allMovies: LiveData<List<Movie>> = movieDao.getAll()
+    private val movieDao: MovieDao = db.movieDao()
+    private val retrofitClient = RetrofitClient()
+    private val allMovies: LiveData<List<Movie>> = movieDao.getAll()
 
-  override fun deleteMovie(movie: Movie) {
-    thread {
-      db.movieDao().delete(movie.id)
+    override fun deleteMovie(movie: Movie) {
+        thread {
+            db.movieDao().delete(movie.id)
+        }
     }
-  }
 
-  override fun getSavedMovies() = allMovies
+    override fun getSavedMovies() = allMovies
 
-  override fun saveMovie(movie: Movie) {
-    thread {
-      movieDao.insert(movie)
+    override fun saveMovie(movie: Movie) {
+        thread {
+            movieDao.insert(movie)
+        }
     }
-  }
 
-  override fun searchMovies(query: String): LiveData<List<Movie>?> {
+    override fun searchMovies(query: String): LiveData<List<Movie>?> {
 
-    val data = MutableLiveData<List<Movie>>()
+        val data = MutableLiveData<List<Movie>>()
 
-    retrofitClient.searchMovies(query).enqueue(object : Callback<MoviesResponse> {
-      override fun onFailure(call: Call<MoviesResponse>, t: Throwable) {
-        data.value = null
-        Log.d(this.javaClass.simpleName, "Failure")
-      }
+        retrofitClient.searchMovies(query).enqueue(object : Callback<MoviesResponse> {
+            override fun onFailure(call: Call<MoviesResponse>, t: Throwable) {
+                data.value = null
+                Log.d(this.javaClass.simpleName, "Failure")
+            }
 
-      override fun onResponse(call: Call<MoviesResponse>, response: Response<MoviesResponse>) {
-        data.value = response.body()?.results
-        Log.d(this.javaClass.simpleName, "Response: ${response.body()?.results}")
-      }
-    })
-    return data
-  }
+            override fun onResponse(
+                call: Call<MoviesResponse>,
+                response: Response<MoviesResponse>
+            ) {
+                data.value = response.body()?.results
+                Log.d(this.javaClass.simpleName, "Response: ${response.body()?.results}")
+            }
+        })
+        return data
+    }
 }

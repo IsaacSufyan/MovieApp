@@ -7,22 +7,22 @@ import java.util.*
 
 class GenreIdConverter {
 
-  private val gson = Gson()
+    private val gson = Gson()
 
-  @TypeConverter
-  fun stringToGenreList(data: String?): List<Int> {
-    if (data == null) {
-      return Collections.emptyList()
+    @TypeConverter
+    fun stringToGenreList(data: String?): List<Int> {
+        if (data == null) {
+            return Collections.emptyList()
+        }
+        val listType = object : TypeToken<List<Int>>() {}.type
+        return gson.fromJson(data, listType)
     }
-    val listType = object : TypeToken<List<Int>>() {}.type
-    return gson.fromJson(data, listType)
-  }
 
-  @TypeConverter
-  fun genreListToString(genreIds: List<Int>?): String {
-    if (genreIds == null) {
-      return gson.toJson(Collections.emptyList<Int>())
+    @TypeConverter
+    fun genreListToString(genreIds: List<Int>?): String {
+        if (genreIds == null) {
+            return gson.toJson(Collections.emptyList<Int>())
+        }
+        return gson.toJson(genreIds)
     }
-    return gson.toJson(genreIds)
-  }
 }
